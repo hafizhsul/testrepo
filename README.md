@@ -12,11 +12,6 @@ Berdasarkan riset dari Society for Human Resource Management (SHRM), biaya pengg
 - Impact: Prediksi yang akurat dapat membantu HR department mengambil tindakan proaktif untuk mempertahankan karyawan berkualitas
 - Solution: Machine learning dapat mengidentifikasi pola dan faktor-faktor yang mempengaruhi keputusan karyawan untuk keluar dari perusahaan
 
-### Referensi:
-- Allen, D. G., Bryant, P. C., & Vardaman, J. M. "Retaining talent: Replacing misconceptions with evidence-based strategies." Academy of Management Perspectives, vol. 24, no. 2, pp. 48-64, 2010.
-- Saradhi, V. V., & Palshikar, G. K. "Employee churn prediction." Expert Systems with Applications, vol. 38, no. 3, pp. 1999-2006, 2011.
-- IBM Watson Analytics. "HR Analytics Employee Attrition & Performance Dataset." Kaggle, 2017. [Online]. Available: https://www.kaggle.com/pavansubhasht/ibm-hr-analytics-attrition-dataset
-
 ## Business Understanding
 
 Pada bagian ini, kamu perlu menjelaskan proses klarifikasi masalah.
@@ -86,8 +81,8 @@ Ingatlah, metrik evaluasi yang digunakan harus sesuai dengan konteks data, probl
 **Rubrik/Kriteria Tambahan (Opsional)**: 
 - Menjelaskan formula metrik dan bagaimana metrik tersebut bekerja.
 
-**---Ini adalah bagian akhir laporan---**
 
-_Catatan:_
-- _Anda dapat menambahkan gambar, kode, atau tabel ke dalam laporan jika diperlukan. Temukan caranya pada contoh dokumen markdown di situs editor [Dillinger](https://dillinger.io/), [Github Guides: Mastering markdown](https://guides.github.com/features/mastering-markdown/), atau sumber lain di internet. Semangat!_
-- Jika terdapat penjelasan yang harus menyertakan code snippet, tuliskan dengan sewajarnya. Tidak perlu menuliskan keseluruhan kode project, cukup bagian yang ingin dijelaskan saja.
+## Referensi:
+1. Allen, D. G., Bryant, P. C., & Vardaman, J. M. "Retaining talent: Replacing misconceptions with evidence-based strategies." Academy of Management Perspectives, vol. 24, no. 2, pp. 48-64, 2010.
+2. Saradhi, V. V., & Palshikar, G. K. "Employee churn prediction." Expert Systems with Applications, vol. 38, no. 3, pp. 1999-2006, 2011.
+3. IBM Watson Analytics. "HR Analytics Employee Attrition & Performance Dataset." Kaggle, 2017. [Online]. Available: https://www.kaggle.com/pavansubhasht/ibm-hr-analytics-attrition-dataset
