@@ -1,10 +1,10 @@
-# Laporan Proyek Machine Learning - Nama Anda
+# Laporan Proyek Machine Learning - Masdika Ilhan Mansiz
 
 ## Domain Proyek
 
-Manajemen sumber daya manusia (Human Resources Management) merupakan salah satu aspek krusial dalam operasional perusahaan modern. Employee turnover atau churn karyawan menjadi tantangan signifikan bagi perusahaan karena dapat mengakibatkan kerugian finansial yang substansial, mulai dari biaya rekrutmen, pelatihan karyawan baru, hingga kehilangan produktivitas dan pengetahuan institusional.
+Manajemen sumber daya manusia (Human Resources Management) merupakan salah satu aspek krusial dalam operasional perusahaan modern. Employee turnover atau churn karyawan menjadi tantangan signifikan bagi perusahaan karena dapat mengakibatkan kerugian finansial yang substansial, mulai dari biaya rekrutmen, pelatihan karyawan baru, hingga kehilangan produktivitas dan pengetahuan institusional [[1](https://www.researchgate.net/publication/236145687_Retaining_Talent_Replacing_Misconceptions_With_Evidence-Based_Strategies)].
 
-Berdasarkan riset dari Society for Human Resource Management (SHRM), biaya penggantian satu karyawan dapat mencapai 50-200% dari gaji tahunan karyawan tersebut, tergantung pada level dan kompleksitas posisi. Dalam era digital saat ini, perusahaan mulai memanfaatkan teknologi machine learning untuk memprediksi kemungkinan karyawan akan keluar dari perusahaan, sehingga dapat mengambil tindakan preventif yang tepat.
+Berdasarkan riset dari Society for Human Resource Management (SHRM), biaya penggantian satu karyawan dapat mencapai 50-200% dari gaji tahunan karyawan tersebut, tergantung pada level dan kompleksitas posisi. Dalam era digital saat ini, perusahaan mulai memanfaatkan teknologi machine learning untuk memprediksi kemungkinan karyawan akan keluar dari perusahaan, sehingga dapat mengambil tindakan preventif yang tepat [[2](https://www.scirp.org/journal/paperinformation?paperid=116209)].
 
 **Mengapa dan bagaimana masalah tersebut harus diselesaikan:**
 - **Urgency**: Tingkat turnover yang tinggi dapat mengganggu stabilitas operasional dan meningkatkan biaya operasional perusahaan
@@ -13,28 +13,19 @@ Berdasarkan riset dari Society for Human Resource Management (SHRM), biaya pengg
 
 ## Business Understanding
 
-Employee churn merupakan tantangan strategis yang mengakibatkan kerugian finansial hingga 50-200% dari gaji tahunan per karyawan. Dalam konteks dataset IBM HR Analytics dengan tingkat churn 16.1% (237 dari 1,470 karyawan), predictive analytics dapat membantu perusahaan mengidentifikasi early warning signals dan mengimplementasikan targeted retention strategies. Model prediktif ini memungkinkan stakeholder seperti CHRO dan HR Business Partners untuk membuat keputusan strategis berbasis data, mengurangi turnover rate hingga 25-40%, dan menghasilkan ROI signifikan melalui penghematan biaya rekrutmen dan training.
+Employee churn merupakan tantangan strategis yang mengakibatkan kerugian finansial hingga 50-200% dari gaji tahunan per karyawan. Dalam konteks dataset IBM HR Analytics dengan tingkat churn 16.1% (237 dari 1,470 karyawan), predictive analytics dapat membantu perusahaan mengidentifikasi early warning signals dan mengimplementasikan targeted retention strategies. Model prediktif ini memungkinkan stakeholder seperti CHRO dan HR Business Partners untuk membuat keputusan strategis berbasis data, mengurangi turnover rate hingga 25-40%, dan menghasilkan ROI signifikan melalui penghematan biaya rekrutmen dan training [[3](https://www.shrm.org/about/press-room/shrm-releases-2022-employee-benefits-survey)].
 
 ### Problem Statements
-
-Menjelaskan pernyataan masalah latar belakang:
-
-- **Pernyataan Masalah 1**: Perusahaan mengalami tingkat turnover karyawan yang tinggi dan tidak dapat memprediksi karyawan mana yang berisiko untuk keluar dari perusahaan
-- **Pernyataan Masalah 2**: Kurangnya insight tentang faktor-faktor yang paling berpengaruh terhadap keputusan karyawan untuk meninggalkan perusahaan
-- **Pernyataan Masalah 3**: Tidak adanya sistem early warning untuk mengidentifikasi karyawan yang berpotensi churn sehingga perusahaan tidak dapat mengambil tindakan preventif
+- Perusahaan mengalami tingkat turnover karyawan yang tinggi dan tidak dapat memprediksi karyawan mana yang berisiko untuk keluar dari perusahaan
+- Kurangnya insight tentang faktor-faktor yang paling berpengaruh terhadap keputusan karyawan untuk meninggalkan perusahaan
+- Tidak adanya sistem early warning untuk mengidentifikasi karyawan yang berpotensi churn sehingga perusahaan tidak dapat mengambil tindakan preventif
 
 ### Goals
-
-Menjelaskan tujuan dari pernyataan masalah:
-
-- **Jawaban Pernyataan Masalah 1**: Membangun model prediktif yang dapat mengidentifikasi karyawan dengan risiko tinggi untuk keluar dari perusahaan dengan akurasi minimal 80%
-- **Jawaban Pernyataan Masalah 2**: Mengidentifikasi dan menganalisis faktor-faktor utama yang mempengaruhi employee churn melalui feature importance analysis
-- **Jawaban Pernyataan Masalah 3**: Mengembangkan sistem prediksi yang dapat diimplementasikan untuk monitoring berkelanjutan dan early intervention
+- Membangun model prediktif yang dapat mengidentifikasi karyawan dengan risiko tinggi untuk keluar dari perusahaan dengan akurasi minimal 80%
+- Mengidentifikasi dan menganalisis faktor-faktor utama yang mempengaruhi employee churn melalui feature importance analysis
+- Mengembangkan sistem prediksi yang dapat diimplementasikan untuk monitoring berkelanjutan dan early intervention
 
 ### Solution Statements
-
-Mengajukan 2 atau lebih solution statement:
-
 - **Solusi 1**: Mengimplementasikan Random Forest Classifier sebagai model utama untuk prediksi churn
   - Metrik evaluasi yang akan digunakan: Accuracy, Precision, Recall, F1-Score, dan AUC-ROC
   - Expected outcome: Akurasi prediksi > 80% dengan interpretabilitas yang baik melalui feature importance
@@ -108,14 +99,24 @@ Variabel-variabel pada IBM HR Analytics Dataset adalah sebagai berikut:
 **Visualisasi Data:**
 Berdasarkan kode yang diimplementasikan, beberapa visualisasi penting yang dihasilkan:
 - **Count Plot Attrition**: Menunjukkan distribusi kelas target yang tidak seimbang
+  ![image](https://github.com/user-attachments/assets/818570ef-75f7-4793-a9f5-89a78edfebf8)
+  
 - **Correlation Heatmap**: Mengidentifikasi korelasi antar variabel numerik
+  ![image](https://github.com/user-attachments/assets/aa20e3f0-d7eb-46c6-a54d-9cd63fabc138)
+
 - **ROC Curves**: Membandingkan performa model yang berbeda
+  ![image](https://github.com/user-attachments/assets/ca4d4101-dc61-4640-84f1-81a781d3b93d)
+
 - **Feature Importance Plot**: Menampilkan 10 fitur paling berpengaruh
+  ![image](https://github.com/user-attachments/assets/aa223a53-3d6b-430f-95d0-a6662f0d5b86)
+
 - **Age Distribution**: Analisis distribusi usia berdasarkan status churn
+  ![image](https://github.com/user-attachments/assets/7c2e7772-7d2d-463b-8e11-2cab1a96a88e)
+
 - **Monthly Income by Job Role**: Analisis income berdasarkan peran dan status churn
+  ![image](https://github.com/user-attachments/assets/eefe80a4-debf-4ba8-99c1-8ba7d8fdfc05)
 
 ```python
-# Contoh code snippet untuk EDA
 # Cek distribusi target
 sns.countplot(data=df, x='Attrition')
 plt.title("Distribusi Churn Karyawan")
@@ -166,7 +167,7 @@ Pada bagian ini menerapkan dan menyebutkan teknik data preparation yang dilakuka
 - **Target Transformation**: Konversi target dari string ke binary (0/1) diperlukan untuk classification algorithms
 
 ```python
-# Contoh implementasi data preparation
+# Implementasi data preparation
 # Encode target
 df['Attrition'] = df['Attrition'].apply(lambda x: 1 if x == 'Yes' else 0)
 
@@ -318,7 +319,6 @@ Model Random Forest menunjukkan performa yang baik dengan accuracy 87%. Meskipun
 
 ### Confusion Matrix Analysis:
 ```python
-# Contoh output confusion matrix
 [[TN, FP],
  [FN, TP]]
 ```
@@ -362,4 +362,5 @@ Proyek prediksi churn karyawan ini berhasil mengidentifikasi model Random Forest
 ## Referensi:
 1. Allen, D. G., Bryant, P. C., & Vardaman, J. M. "Retaining talent: Replacing misconceptions with evidence-based strategies." Academy of Management Perspectives, vol. 24, no. 2, pp. 48-64, 2010.
 2. Saradhi, V. V., & Palshikar, G. K. "Employee churn prediction." Expert Systems with Applications, vol. 38, no. 3, pp. 1999-2006, 2011.
-3. IBM Watson Analytics. "HR Analytics Employee Attrition & Performance Dataset." Kaggle, 2017. [Online]. Available: https://www.kaggle.com/pavansubhasht/ibm-hr-analytics-attrition-dataset
+3. Society for Human Resource Management (SHRM). "2022 Employee Benefits: The Evolution of Benefits." SHRM Research, 2022.
+4. IBM Watson Analytics. "HR Analytics Employee Attrition & Performance Dataset." Kaggle, 2017. [Online]. Available: https://www.kaggle.com/pavansubhasht/ibm-hr-analytics-attrition-dataset
