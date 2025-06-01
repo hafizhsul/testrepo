@@ -116,19 +116,6 @@ Berdasarkan kode yang diimplementasikan, beberapa visualisasi penting yang dihas
 - **Monthly Income by Job Role**: Analisis income berdasarkan peran dan status churn
   ![image](https://github.com/user-attachments/assets/eefe80a4-debf-4ba8-99c1-8ba7d8fdfc05)
 
-```python
-# Cek distribusi target
-sns.countplot(data=df, x='Attrition')
-plt.title("Distribusi Churn Karyawan")
-plt.show()
-
-# Korelasi dengan target
-plt.figure(figsize=(12, 10))
-sns.heatmap(df.corr(), cmap='coolwarm', annot=False)
-plt.title("Heatmap Korelasi")
-plt.show()
-```
-
 ## Data Preparation
 
 Pada bagian ini menerapkan dan menyebutkan teknik data preparation yang dilakukan sesuai dengan implementasi dalam kode.
@@ -354,10 +341,6 @@ AUC-ROC mengukur area di bawah kurva ROC, dimana:
 - AUC > 0.7: Good classifier
 
 Model Random Forest dengan AUC ~0.78 menunjukkan performa yang good dan dapat diandalkan untuk prediksi churn karyawan.
-
-## Kesimpulan
-
-Proyek prediksi churn karyawan ini berhasil mengidentifikasi model Random Forest sebagai solusi terbaik dengan akurasi 87%. Model ini memberikan insights berharga bahwa faktor-faktor seperti OverTime, Age, dan JobSatisfaction merupakan prediktor utama employee churn. Implementasi model ini dapat membantu departemen HR dalam mengambil tindakan preventif yang tepat sasaran untuk mempertahankan karyawan berkualitas.
 
 ## Referensi:
 1. Allen, D. G., Bryant, P. C., & Vardaman, J. M. "Retaining talent: Replacing misconceptions with evidence-based strategies." Academy of Management Perspectives, vol. 24, no. 2, pp. 48-64, 2010.
