@@ -26,13 +26,13 @@ Employee churn merupakan tantangan strategis yang mengakibatkan kerugian finansi
 - Mengembangkan sistem prediksi yang dapat diimplementasikan untuk monitoring berkelanjutan dan early intervention
 
 ### Solution Statements
-- **Solusi 1**: Mengimplementasikan Random Forest Classifier sebagai model utama untuk prediksi churn
+- **Solusi 1**: Mengimplementasikan tiga algoritma berbeda (Random Forest, Logistic Regression, dan Gradient Boosting) untuk perbandingan performa
   - Metrik evaluasi yang akan digunakan: Accuracy, Precision, Recall, F1-Score, dan AUC-ROC
-  - Expected outcome: Akurasi prediksi > 80% dengan interpretabilitas yang baik melalui feature importance
+  - Expected outcome: Identifikasi model terbaik dengan akurasi > 80%
 
-- **Solusi 2**: Membandingkan performa Random Forest dengan algoritma Logistic Regression dan Gradient Boosting Classifier
-  - Metrik evaluasi yang akan digunakan: Comparative analysis menggunakan ROC curves dan classification metrics
-  - Expected outcome: Identifikasi model terbaik berdasarkan performa dan kompleksitas
+- **Solusi 2**: Melakukan analisis feature importance untuk mengidentifikasi faktor-faktor kunci yang mempengaruhi churn
+  - Metrik evaluasi yang akan digunakan: Feature importance scores dan visualisasi
+  - Expected outcome: Insight yang actionable untuk HR department
 
 - **Solusi 3**: Melakukan hyperparameter tuning pada model terbaik untuk optimasi performa
   - Metrik evaluasi yang akan digunakan: Grid Search Cross Validation dengan scoring accuracy
@@ -122,24 +122,50 @@ Pada bagian ini menerapkan dan menyebutkan teknik data preparation yang dilakuka
 
 ### Proses Data Preparation:
 
-1. **Data Cleaning**
-   - **Removal of Irrelevant Features**: Menghapus kolom yang tidak memberikan informasi prediktif (EmployeeNumber, EmployeeCount, Over18, StandardHours)
+1. **Data Loading dan Initial Exploration**
+   ```python
+   df = pd.read_csv("WA_Fn-UseC_-HR-Employee-Attrition.csv")
+   print(df.head())
+   print(df.info())
+   ```
+
+2. **Target Variable Encoding**
    - **Target Encoding**: Mengkonversi target variable 'Attrition' dari "Yes"/"No" menjadi 1/0
-   - **Missing Value Check**: Melakukan pengecekan missing values (dataset ini tidak memiliki missing values)
+   ```python
+   df['Attrition'] = df['Attrition'].apply(lambda x: 1 if x == 'Yes' else 0)
+   ```
 
-2. **Feature Engineering**
-   - **Categorical Encoding**: Menggunakan Label Encoder untuk mengkonversi semua variabel kategorikal menjadi numerik
-   - **Feature Scaling**: Menerapkan StandardScaler untuk menormalisasi fitur numerik
-   - **Feature Selection**: Semua fitur dipertahankan setelah cleaning untuk analisis komprehensif
+3. **Feature Cleaning**
+   - **Removal of Irrelevant Features**: Menghapus kolom yang tidak memberikan informasi prediktif
+   ```python
+   cols_to_drop = ['EmployeeNumber', 'EmployeeCount', 'Over18', 'StandardHours']
+   df.drop(columns=cols_to_drop, inplace=True)
+   ```
 
-3. **Data Transformation**
-   - **Label Encoding untuk Kategorikal**: Semua kolom dengan tipe object dikonversi menggunakan LabelEncoder
-   - **Standardization**: Fitur numerik di-scale menggunakan StandardScaler untuk memastikan semua fitur memiliki skala yang sama
+4. **Categorical Feature Encoding**
+   - **Label Encoding**: Mengkonversi semua variabel kategorikal menjadi numerik
+   ```python
+   cat_cols = df.select_dtypes(include=['object']).columns
+   le = LabelEncoder()
+   for col in cat_cols:
+       df[col] = le.fit_transform(df[col])
+   ```
 
-4. **Data Splitting**
-   - **Training Set**: 80% dari total data (1176 samples)
-   - **Test Set**: 20% dari total data (294 samples)
-   - **Random State**: 42 untuk reproducibility
+5. **Data Splitting**
+   - **Train-Test Split**: 80% untuk training, 20% untuk testing
+   ```python
+   X = df.drop('Attrition', axis=1)
+   y = df['Attrition']
+   X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+   ```
+
+6. **Feature Scaling**
+   - **Standardization**: Menerapkan StandardScaler untuk menormalisasi fitur numerik
+   ```python
+   scaler = StandardScaler()
+   X_train = scaler.fit_transform(X_train)
+   X_test = scaler.transform(X_test)
+   ```
 
 ### Alasan Data Preparation:
 
@@ -153,29 +179,15 @@ Pada bagian ini menerapkan dan menyebutkan teknik data preparation yang dilakuka
 
 - **Target Transformation**: Konversi target dari string ke binary (0/1) diperlukan untuk classification algorithms
 
-```python
-# Implementasi data preparation
-# Encode target
-df['Attrition'] = df['Attrition'].apply(lambda x: 1 if x == 'Yes' else 0)
-
-# Hapus kolom tidak relevan
-cols_to_drop = ['EmployeeNumber', 'EmployeeCount', 'Over18', 'StandardHours']
-df.drop(columns=cols_to_drop, inplace=True)
-
-# Encode fitur kategorikal
-cat_cols = df.select_dtypes(include=['object']).columns
-le = LabelEncoder()
-for col in cat_cols:
-    df[col] = le.fit_transform(df[col])
-```
-
 ## Modeling
 
-Tahapan modeling melibatkan implementasi dan perbandingan beberapa algoritma machine learning untuk menyelesaikan masalah prediksi churn karyawan.
+Tahapan modeling melibatkan implementasi dan perbandingan tiga algoritma machine learning untuk menyelesaikan masalah prediksi churn karyawan.
 
 ### Algoritma yang Digunakan:
 
 #### 1. Random Forest Classifier
+**Definisi**: Random Forest adalah metode ensemble berbasis decision tree yang menggunakan teknik **bagging** untuk membentuk banyak pohon keputusan dari subset data yang di-random. Hasil akhir dipilih berdasarkan voting mayoritas dari semua pohon.
+
 **Kelebihan:**
 - Robust terhadap overfitting
 - Dapat menangani fitur kategorikal dan numerik
@@ -194,6 +206,8 @@ rf_model = RandomForestClassifier(n_estimators=100, random_state=42)
 ```
 
 #### 2. Logistic Regression
+**Definisi**: Logistic Regression merupakan algoritma klasifikasi linier yang digunakan untuk memperkirakan probabilitas kejadian suatu kelas berdasarkan hubungan linier logit dari variabel input.
+
 **Kelebihan:**
 - Sederhana dan cepat dalam training
 - Probabilistic output yang mudah diinterpretasi
@@ -212,6 +226,8 @@ log_model.fit(X_train, y_train)
 ```
 
 #### 3. Gradient Boosting Classifier
+**Definisi**: Gradient Boosting adalah metode ensemble yang membentuk pohon keputusan secara bertahap, di mana setiap pohon baru memperbaiki kesalahan dari pohon sebelumnya. Model ini menggunakan prinsip boosting dengan loss function gradient.
+
 **Kelebihan:**
 - Often achieves high accuracy
 - Dapat menangani berbagai tipe data
@@ -225,10 +241,20 @@ log_model.fit(X_train, y_train)
 
 ### Model Implementation dan Results:
 
-**Baseline Performance:**
-- **Random Forest Accuracy**: ~87%
-- **Logistic Regression Accuracy**: ~79%
-- **Gradient Boosting Accuracy**: ~85%
+**Implementation Code:**
+```python
+# Random Forest
+rf_model = RandomForestClassifier(n_estimators=100, random_state=42)
+rf_model.fit(X_train, y_train)
+
+# Logistic Regression  
+log_model = LogisticRegression()
+log_model.fit(X_train, y_train)
+
+# Gradient Boosting
+gb_model = GradientBoostingClassifier()
+gb_model.fit(X_train, y_train)
+```
 
 ### Hyperparameter Tuning:
 
@@ -239,29 +265,13 @@ param_grid = {
     'max_depth': [None, 10, 20],
     'min_samples_split': [2, 5]
 }
+gs = GridSearchCV(RandomForestClassifier(), param_grid, cv=3, scoring='accuracy')
+gs.fit(X_train, y_train)
 ```
-
-### Model Selection:
-
-Random Forest dipilih sebagai model terbaik berdasarkan:
-1. **Highest Accuracy**: Mencapai akurasi tertinggi di antara ketiga model
-2. **Feature Interpretability**: Menyediakan feature importance yang mudah dipahami
-3. **Robustness**: Stabil dan tidak prone to overfitting
-4. **AUC-ROC Score**: Memberikan area under curve terbaik
 
 ### Feature Importance Analysis:
 
-Top 10 fitur yang paling berpengaruh terhadap churn:
-1. OverTime - Status lembur karyawan
-2. Age - Usia karyawan  
-3. JobSatisfaction - Tingkat kepuasan kerja
-4. MonthlyIncome - Pendapatan bulanan
-5. DistanceFromHome - Jarak dari rumah ke kantor
-6. EnvironmentSatisfaction - Kepuasan lingkungan kerja
-7. WorkLifeBalance - Keseimbangan kerja-hidup
-8. YearsAtCompany - Lama bekerja di perusahaan
-9. TotalWorkingYears - Total pengalaman kerja
-10. StockOptionLevel - Level stock option
+Berdasarkan Random Forest model, top 10 fitur yang paling berpengaruh terhadap churn dapat diidentifikasi melalui feature importance scores dan divisualisasikan untuk memberikan insight kepada HR department.
 
 ## Evaluation
 
@@ -294,53 +304,18 @@ Pada bagian evaluasi, digunakan beberapa metrik untuk mengukur performa model kl
 
 ### Hasil Evaluasi Model:
 
-#### Random Forest (Model Terbaik):
-- **Accuracy**: ~87%
-- **Precision**: ~0.65-0.70 (untuk class churn)
-- **Recall**: ~0.45-0.50 (untuk class churn)
-- **F1-Score**: ~0.55-0.60
-- **AUC-ROC**: ~0.75-0.80
+Berdasarkan implementasi kode dan hasil yang diperoleh:
 
-#### Interpretasi Hasil:
-Model Random Forest menunjukkan performa yang baik dengan accuracy 87%. Meskipun precision untuk class churn relatif baik (~67%), recall masih dapat ditingkatkan (~47%). Hal ini menunjukkan model cenderung conservative dalam memprediksi churn, yang sebenarnya acceptable dalam konteks bisnis karena false positive lebih dapat ditolerir dibandingkan false negative.
-
-### Confusion Matrix Analysis:
-```python
-[[TN, FP],
- [FN, TP]]
-```
-
-Dari confusion matrix, dapat dianalisis:
-- **True Negative**: Karyawan yang diprediksi tidak churn dan benar tidak churn
-- **False Positive**: Karyawan yang diprediksi churn tapi sebenarnya tidak churn  
-- **False Negative**: Karyawan yang diprediksi tidak churn tapi sebenarnya churn
-- **True Positive**: Karyawan yang diprediksi churn dan benar churn
-
-### Business Impact Analysis:
-
-**Keberhasilan Model:**
-- Model berhasil mengidentifikasi faktor-faktor utama yang mempengaruhi churn (OverTime, Age, JobSatisfaction)
-- Accuracy 87% memberikan confidence yang cukup untuk decision making
-- Feature importance memberikan actionable insights untuk HR department
-
-**Rekomendasi Implementasi:**
-1. **Monitoring System**: Implementasikan model untuk monitoring berkelanjutan karyawan berisiko tinggi
-2. **Intervention Strategy**: Fokus pada karyawan dengan overtime tinggi dan job satisfaction rendah
-3. **Policy Review**: Evaluasi kebijakan lembur dan program peningkatan job satisfaction
-4. **Regular Model Update**: Retrain model secara berkala dengan data terbaru
-
-### Formula Metrik dan Cara Kerja:
-
-**ROC Curve**: Plot antara True Positive Rate (Recall) vs False Positive Rate
-- **TPR** = TP / (TP + FN)  
-- **FPR** = FP / (FP + TN)
-
-AUC-ROC mengukur area di bawah kurva ROC, dimana:
-- AUC = 0.5: Random classifier
-- AUC = 1.0: Perfect classifier
-- AUC > 0.7: Good classifier
-
-Model Random Forest dengan AUC ~0.78 menunjukkan performa yang good dan dapat diandalkan untuk prediksi churn karyawan.
+#### Perbandingan Performa Model:
+- **Random Forest**: 
+  - Accuracy: 0.88
+  - AUC-ROC: 0.74
+- **Logistic Regression**: 
+  - Accuracy: 0.89
+  - AUC-ROC: 0.77
+- **Gradient Boosting**: 
+  - Accuracy: 0.89
+  - AUC-ROC: 0.77
 
 ## Referensi:
 1. Allen, D. G., Bryant, P. C., & Vardaman, J. M. "Retaining talent: Replacing misconceptions with evidence-based strategies." Academy of Management Perspectives, vol. 24, no. 2, pp. 48-64, 2010.
