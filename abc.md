@@ -200,11 +200,6 @@ Tahapan modeling melibatkan implementasi dan perbandingan tiga algoritma machine
 - Kurang interpretable dibandingkan decision tree tunggal
 - Dapat bias terhadap fitur dengan lebih banyak level
 
-**Parameter yang digunakan:**
-```python
-rf_model = RandomForestClassifier(n_estimators=100, random_state=42)
-```
-
 #### 2. Logistic Regression
 **Definisi**: Logistic Regression merupakan algoritma klasifikasi linier yang digunakan untuk memperkirakan probabilitas kejadian suatu kelas berdasarkan hubungan linier logit dari variabel input.
 
@@ -219,12 +214,6 @@ rf_model = RandomForestClassifier(n_estimators=100, random_state=42)
 - Sensitif terhadap outliers
 - Dapat struggle dengan fitur yang sangat berkorelasi
 
-**Implementation:**
-```python
-log_model = LogisticRegression()
-log_model.fit(X_train, y_train)
-```
-
 #### 3. Gradient Boosting Classifier
 **Definisi**: Gradient Boosting adalah metode ensemble yang membentuk pohon keputusan secara bertahap, di mana setiap pohon baru memperbaiki kesalahan dari pohon sebelumnya. Model ini menggunakan prinsip boosting dengan loss function gradient.
 
@@ -238,36 +227,6 @@ log_model.fit(X_train, y_train)
 - Prone to overfitting jika tidak di-tune dengan baik
 - Computational cost yang tinggi
 - Lebih kompleks untuk di-interpret
-
-### Model Implementation dan Results:
-
-**Implementation Code:**
-```python
-# Random Forest
-rf_model = RandomForestClassifier(n_estimators=100, random_state=42)
-rf_model.fit(X_train, y_train)
-
-# Logistic Regression  
-log_model = LogisticRegression()
-log_model.fit(X_train, y_train)
-
-# Gradient Boosting
-gb_model = GradientBoostingClassifier()
-gb_model.fit(X_train, y_train)
-```
-
-### Hyperparameter Tuning:
-
-Dilakukan Grid Search untuk Random Forest dengan parameter:
-```python
-param_grid = {
-    'n_estimators': [100, 200],
-    'max_depth': [None, 10, 20],
-    'min_samples_split': [2, 5]
-}
-gs = GridSearchCV(RandomForestClassifier(), param_grid, cv=3, scoring='accuracy')
-gs.fit(X_train, y_train)
-```
 
 ### Feature Importance Analysis:
 
