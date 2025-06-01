@@ -27,7 +27,7 @@ Employee churn merupakan tantangan strategis yang mengakibatkan kerugian finansi
 
 ### Solution Statements
 - **Solusi 1**: Mengimplementasikan tiga algoritma berbeda (Random Forest, Logistic Regression, dan Gradient Boosting) untuk perbandingan performa
-  - Metrik evaluasi yang akan digunakan: Accuracy, Precision, Recall, F1-Score, dan AUC-ROC
+  - Metrik evaluasi yang akan digunakan: Accuracy dan AUC-ROC
   - Expected outcome: Identifikasi model terbaik dengan akurasi > 80%
 
 - **Solusi 2**: Melakukan analisis feature importance untuk mengidentifikasi faktor-faktor kunci yang mempengaruhi churn
@@ -284,25 +284,14 @@ Pada bagian evaluasi, digunakan beberapa metrik untuk mengukur performa model kl
 
 **Penjelasan**: Mengukur proporsi prediksi yang benar dari total prediksi. Metrik ini cocok untuk dataset yang balanced, namun dapat misleading untuk imbalanced dataset.
 
-#### 2. Precision
-**Formula**: Precision = TP / (TP + FP)
-
-**Penjelasan**: Mengukur proporsi prediksi positif yang benar. Penting dalam kasus churn prediction karena kita ingin minimalisir false positive (memprediksi karyawan akan churn padahal tidak).
-
-#### 3. Recall (Sensitivity)
-**Formula**: Recall = TP / (TP + FN)
-
-**Penjelasan**: Mengukur proporsi actual positive yang berhasil diprediksi dengan benar. Krusial untuk churn prediction karena kita tidak ingin melewatkan karyawan yang benar-benar akan churn (minimalisir false negative).
-
-#### 4. F1-Score
-**Formula**: F1-Score = 2 × (Precision × Recall) / (Precision + Recall)
-
-**Penjelasan**: Harmonic mean dari precision dan recall, memberikan balance antara kedua metrik tersebut.
-
-#### 5. AUC-ROC (Area Under the ROC Curve)
+#### 2. AUC-ROC (Area Under the ROC Curve)
 **Penjelasan**: Mengukur kemampuan model untuk membedakan antara kelas positif dan negatif. Nilai mendekati 1 menunjukkan performa yang excellent.
 
 ### Hasil Evaluasi Model:
+
+![image](https://github.com/user-attachments/assets/481bb078-e1a9-4a95-8a3d-4bd3ec7e5136)
+
+![image](https://github.com/user-attachments/assets/364816f4-8f24-4550-bda9-e626d519ad81)
 
 Berdasarkan implementasi kode dan hasil yang diperoleh:
 
@@ -316,6 +305,11 @@ Berdasarkan implementasi kode dan hasil yang diperoleh:
 - **Gradient Boosting**: 
   - Accuracy: 0.89
   - AUC-ROC: 0.77
+
+Secara keseluruhan, **Logistic Regression** dan **Gradient Boosting** menunjukkan performa terbaik dengan akurasi dan AUC yang paling tinggi.
+
+* Jika interpretasi menjadi faktor penting (misalnya untuk HR atau manajemen), maka **Logistic Regression** lebih direkomendasikan karena lebih mudah dijelaskan.
+* Jika kompleksitas data tinggi dan interpretasi bukan prioritas utama, maka **Gradient Boosting** bisa menjadi pilihan unggul.
 
 ## Referensi:
 1. Allen, D. G., Bryant, P. C., & Vardaman, J. M. "Retaining talent: Replacing misconceptions with evidence-based strategies." Academy of Management Perspectives, vol. 24, no. 2, pp. 48-64, 2010.
