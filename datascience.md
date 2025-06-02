@@ -12,7 +12,7 @@ Berdasarkan kondisi yang dihadapi oleh Jaya Jaya Maju, berikut adalah permasalah
 
 2. **Kurangnya Pemahaman Faktor Penyebab**: Departemen HR belum memiliki pemahaman yang mendalam tentang faktor-faktor spesifik yang menyebabkan karyawan memutuskan untuk keluar dari perusahaan.
 
-3. **Kurangnya Tools Monitoring**: Departemen HR membutuhkan dashboard untuk memantau dan menganalisis berbagai metrik terkait employee retention secara real-time.
+3. **Kurangnya Tools Monitoring**: Departemen HR membutuhkan dashboard untuk memantau dan menganalisis berbagai metrik terkait employee retention.
 
 ### Cakupan Proyek
 
@@ -23,43 +23,29 @@ Proyek ini akan mencakup beberapa tahapan utama untuk menyelesaikan permasalahan
    - Identifikasi pola dan tren dalam data employee attrition
    - Analisis korelasi antara berbagai faktor dengan keputusan karyawan untuk keluar
 
-2. **Pengembangan Model Prediksi**
-   - Implementasi algoritma machine learning untuk memprediksi employee attrition
-   - Evaluasi dan optimasi model untuk mendapatkan performa terbaik
-   - Identifikasi feature importance untuk memahami faktor-faktor kunci
-
-3. **Pembuatan Business Dashboard**
+2. **Pembuatan Business Dashboard**
    - Pengembangan dashboard interaktif menggunakan Metabase
    - Visualisasi key metrics dan insights untuk departemen HR
-   - Implementasi monitoring real-time untuk employee retention
-
-4. **Rekomendasi Strategis**
-   - Analisis actionable insights berdasarkan hasil model dan dashboard
-   - Penyusunan strategi untuk mengurangi attrition rate
-   - Action items yang dapat diimplementasikan oleh departemen HR
+   - Implementasi monitoring untuk employee retention
 
 ### Persiapan
 
-**Sumber data**: Dataset karyawan Jaya Jaya Maju yang berisi informasi demografis, karakteristik pekerjaan, kompensasi, dan status attrition karyawan.
+**Sumber data**: [Dataset Karyawan Jaya Jaya Maju](https://github.com/dicodingacademy/dicoding_dataset/blob/main/employee/employee_data.csv) yang berisi informasi demografis, karakteristik pekerjaan, kompensasi, dan status attrition karyawan.
 
 **Setup environment**:
-```bash
-# Install required libraries
-pip install pandas numpy matplotlib seaborn scikit-learn
-pip install plotly dash streamlit
-pip install jupyter notebook
-
-# Setup Metabase dengan Docker
-docker run -d -p 3000:3000 --name metabase metabase/metabase
-
-# Alternative setup untuk dashboard
-pip install metabase-api
+- Pastikan Docker sudah terinstal dan jalankan perintah berikut:
 ```
-
+docker pull metabase/metabase:latest
+```
+- Kemudian jalankan perintah berikut:
+```
+docker run -d -p 3000:3000 --name metabase metabase/metabase
+```
+      
 **Tools dan Technologies**:
-- **Python**: Pandas, NumPy, Scikit-learn untuk data analysis dan machine learning
+- **Python**: Pandas dan NumPy
 - **Visualization**: Matplotlib, Seaborn, Plotly untuk data visualization
-- **Dashboard**: Metabase untuk business intelligence dashboard
+- **Dashboard**: Metabase untuk business dashboard
 - **Environment**: Jupyter Notebook untuk development dan documentation
 
 ## Business Dashboard
@@ -69,45 +55,34 @@ Business dashboard telah dibuat menggunakan Metabase untuk membantu departemen H
 **Fitur Utama Dashboard:**
 
 1. **Overview Metrics**
-   - Current attrition rate dan trend bulanan
+   - Current attrition rate
    - Jumlah total karyawan dan distribusi per departemen
    - Perbandingan attrition rate antar departemen
 
 2. **Demographic Analysis**
-   - Distribusi attrition berdasarkan usia, jenis kelamin, dan status pernikahan
-   - Analisis attrition berdasarkan tingkat pendidikan
-   - Visualisasi geographic distribution karyawan
+   - Distribusi attrition berdasarkan usia, dan masa kerja
+   - Visualisasi geographic karyawan
 
 3. **Job-Related Factors**
-   - Attrition rate berdasarkan job role dan job level
-   - Analisis kepuasan kerja dan work-life balance
+   - Analisis kepuasan kerja
    - Distribusi jam kerja dan overtime
-
-4. **Compensation Analysis**
-   - Korelasi antara salary dan attrition rate
-   - Analisis salary increment dan promotion frequency
-   - Perbandingan kompensasi antar departemen
 
 **Akses Dashboard:**
 - **URL**: `http://localhost:3000` (running di local environment)
 - **Username**: `root@mail.com`
 - **Password**: `root123`
 
-*Dashboard dapat diakses setelah menjalankan container Metabase dan melakukan setup database connection dengan dataset Jaya Jaya Maju.*
-
 ## Conclusion
 
-Berdasarkan analisis data dan pengembangan model machine learning untuk kasus attrition rate di Jaya Jaya Maju, dapat disimpulkan beberapa hal penting:
+Berdasarkan analisis data untuk kasus attrition rate di Perusahaan Jaya Jaya Maju, dapat disimpulkan beberapa hal penting:
 
 **Key Findings:**
 
-1. **Faktor Utama Attrition**: Analisis menunjukkan bahwa faktor-faktor seperti job satisfaction, work-life balance, compensation, dan career development opportunities menjadi prediktor utama employee attrition.
+1. **Faktor Utama Attrition**: Analisis menunjukkan bahwa faktor-faktor seperti job satisfaction, waktu overtime, dan usia menjadi prediktor utama employee attrition.
 
-2. **Model Prediksi**: Model machine learning yang dikembangkan mampu memprediksi karyawan yang berpotensi resign dengan akurasi tinggi, memungkinkan departemen HR untuk melakukan intervensi preventif.
+2. **Pola Attrition**: Terdapat pola spesifik dalam attrition berdasarkan demografis, dan karakteristik pekerjaan yang dapat digunakan untuk strategi retention.
 
-3. **Pola Attrition**: Terdapat pola spesifik dalam attrition berdasarkan demografis, job role, dan karakteristik pekerjaan yang dapat digunakan untuk strategi retention yang lebih targeted.
-
-4. **Dashboard Monitoring**: Business dashboard yang telah dibuat memberikan visibility real-time terhadap key metrics dan memungkinkan monitoring proaktif terhadap faktor-faktor risiko attrition.
+3. **Dashboard Monitoring**: Business dashboard yang telah dibuat memberikan visibility terhadap key metrics dan memungkinkan monitoring terhadap faktor-faktor risiko attrition.
 
 **Impact:**
-Implementasi solusi ini diharapkan dapat membantu Jaya Jaya Maju mengurangi attrition rate dari >10% menjadi di bawah rata-rata industri (sekitar 6-8%), sehingga dapat menghemat biaya rekrutmen dan meningkatkan stabilitas operasional perusahaan.
+Implementasi solusi ini diharapkan dapat membantu Jaya Jaya Maju mengurangi attrition rate dari >10% menjadi di bawah rata-rata industri (sekitar 6-8%), sehingga dapat meningkatkan stabilitas operasional perusahaan.
