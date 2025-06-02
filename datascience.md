@@ -12,11 +12,7 @@ Berdasarkan kondisi yang dihadapi oleh Jaya Jaya Maju, berikut adalah permasalah
 
 2. **Kurangnya Pemahaman Faktor Penyebab**: Departemen HR belum memiliki pemahaman yang mendalam tentang faktor-faktor spesifik yang menyebabkan karyawan memutuskan untuk keluar dari perusahaan.
 
-3. **Tidak Adanya Sistem Prediksi Dini**: Perusahaan belum memiliki sistem yang dapat memprediksi karyawan mana yang berpotensi untuk resign, sehingga tidak dapat melakukan tindakan preventif.
-
-4. **Kurangnya Tools Monitoring**: Departemen HR membutuhkan dashboard untuk memantau dan menganalisis berbagai metrik terkait employee retention secara real-time.
-
-5. **Dampak Finansial dan Operasional**: Tingginya turnover rate berdampak pada meningkatnya biaya rekrutmen, pelatihan, dan hilangnya institutional knowledge.
+3. **Kurangnya Tools Monitoring**: Departemen HR membutuhkan dashboard untuk memantau dan menganalisis berbagai metrik terkait employee retention secara real-time.
 
 ### Cakupan Proyek
 
