@@ -186,7 +186,7 @@ Tahapan modeling melibatkan implementasi dan perbandingan tiga algoritma machine
 ### Algoritma yang Digunakan:
 
 #### 1. Random Forest Classifier
-**Definisi**: Random Forest adalah metode ensemble berbasis decision tree yang menggunakan teknik **bagging** untuk membentuk banyak pohon keputusan dari subset data yang di-random. Hasil akhir dipilih berdasarkan voting mayoritas dari semua pohon.
+**Definisi**: Random Forest adalah metode ensemble berbasis decision tree yang menggunakan teknik **bagging** untuk membentuk banyak tree keputusan dari subset data yang di-random. Hasil akhir dipilih berdasarkan voting mayoritas dari semua tree.
 
 **Kelebihan:**
 - Robust terhadap overfitting
@@ -200,7 +200,11 @@ Tahapan modeling melibatkan implementasi dan perbandingan tiga algoritma machine
 - Kurang interpretable dibandingkan decision tree tunggal
 - Dapat bias terhadap fitur dengan lebih banyak level
 
-**Parameter yang digunakan:**
+**Parameter yang Digunakan dan Penjelasannya:**
+- `n_estimators=100`: Jumlah tree keputusan dalam ensemble. Dipilih 100 untuk menyeimbangkan akurasi dan komputasi.
+- `random_state=42`: Seed untuk reproduktibilitas hasil.
+
+**Implementasi:**
 ```python
 rf_model = RandomForestClassifier(n_estimators=100, random_state=42)
 ```
@@ -219,6 +223,12 @@ rf_model = RandomForestClassifier(n_estimators=100, random_state=42)
 - Sensitif terhadap outliers
 - Dapat struggle dengan fitur yang sangat berkorelasi
 
+**Parameter Default yang Relevan:**
+- `penalty='l2'`: Regularisasi L2 (Ridge) untuk mencegah overfitting.
+- `C=1.0`: Kebalikan dari kekuatan regularisasi (nilai kecil = regularisasi kuat).
+- `solver='lbfgs'`: Algoritma optimasi untuk masalah klasifikasi multikelas.
+- `max_iter=100`: Maksimum iterasi untuk konvergensi.
+
 **Implementation:**
 ```python
 log_model = LogisticRegression()
@@ -226,7 +236,7 @@ log_model.fit(X_train, y_train)
 ```
 
 #### 3. Gradient Boosting Classifier
-**Definisi**: Gradient Boosting adalah metode ensemble yang membentuk pohon keputusan secara bertahap, di mana setiap pohon baru memperbaiki kesalahan dari pohon sebelumnya. Model ini menggunakan prinsip boosting dengan loss function gradient.
+**Definisi**: Gradient Boosting adalah metode ensemble yang membentuk tree keputusan secara bertahap, di mana setiap tree baru memperbaiki kesalahan dari tree sebelumnya. Model ini menggunakan prinsip boosting dengan loss function gradient.
 
 **Kelebihan:**
 - Often achieves high accuracy
@@ -239,35 +249,32 @@ log_model.fit(X_train, y_train)
 - Computational cost yang tinggi
 - Lebih kompleks untuk di-interpret
 
-### Model Implementation dan Results:
+**Parameter Default yang Relevan:**
+- `n_estimators=100`: Jumlah tree boosting stages.
+- `learning_rate=0.1`: Tingkat pembelajaran (shrinkage) untuk setiap tree.
+- `max_depth=3`: Kedalaman maksimal setiap tree.
+- `min_samples_split=2`: Mirip dengan Random Forest.
 
-**Implementation Code:**
+**Implementation:**
 ```python
-# Random Forest
-rf_model = RandomForestClassifier(n_estimators=100, random_state=42)
-rf_model.fit(X_train, y_train)
-
-# Logistic Regression  
-log_model = LogisticRegression()
-log_model.fit(X_train, y_train)
-
-# Gradient Boosting
 gb_model = GradientBoostingClassifier()
 gb_model.fit(X_train, y_train)
 ```
 
 ### Hyperparameter Tuning:
+Hyperparameter tuning dengan Grid Search pada Random Forest dilakukan untuk mengoptimasi tiga parameter utama: `n_estimators`, `max_depth`, dan `min_samples_split`.
 
-Dilakukan Grid Search untuk Random Forest dengan parameter:
 ```python
 param_grid = {
-    'n_estimators': [100, 200],
-    'max_depth': [None, 10, 20],
-    'min_samples_split': [2, 5]
+    'n_estimators': [100, 200],  # Jumlah tree yang diuji
+    'max_depth': [None, 10, 20],  # Kedalaman tree: unlimited vs dibatasi
+    'min_samples_split': [2, 5]   # Minimum sampel untuk split node
 }
-gs = GridSearchCV(RandomForestClassifier(), param_grid, cv=3, scoring='accuracy')
-gs.fit(X_train, y_train)
 ```
+**Alasan Pemilihan:**
+- `n_estimators`: Mengevaluasi trade-off antara performa dan waktu komputasi.
+- `max_depth`: Mencegah overfitting dengan membatasi kedalaman.
+- `min_samples_split`: Mengontrol granularitas pemisahan node.
 
 ### Feature Importance Analysis:
 
@@ -306,10 +313,77 @@ Berdasarkan implementasi kode dan hasil yang diperoleh:
   - Accuracy: 0.89
   - AUC-ROC: 0.77
 
+**Tabel perbandingan parameter dan dampaknya:**
+| Model | Parameter Kunci | Dampak pada Performa |
+| ------------- | ------------- | ------ |
+| Random Forest	 | `n_estimators=100`, `max_depth=None` | Akurasi tinggi, sedikit overfit |
+| Logistic Reg. | `C=1.0`, `penalty='l2'` | Stabil, interpretasi mudah |
+| Gradient Boosting	| `learning_rate=0.1`, `max_depth=3` | Akurasi optimal dengan komputasi efisien |
+
 Secara keseluruhan, **Logistic Regression** dan **Gradient Boosting** menunjukkan performa terbaik dengan akurasi dan AUC yang paling tinggi.
 
 * Jika interpretasi menjadi faktor penting (misalnya untuk HR atau manajemen), maka **Logistic Regression** lebih direkomendasikan karena lebih mudah dijelaskan.
 * Jika kompleksitas data tinggi dan interpretasi bukan prioritas utama, maka **Gradient Boosting** bisa menjadi pilihan unggul.
+
+#### **Kembali ke Problem Statements Awal:**
+
+1. **Problem 1:**
+   
+   "Perusahaan tidak dapat memprediksi karyawan berisiko churn."
+   
+   **Solusi dari Proyek:**
+    - Dibangun tiga model prediktif (Random Forest, Logistic Regression, Gradient Boosting) dengan akurasi >88% dan AUC >0.77.
+    - Model terbaik (Logistic Regression) dapat mengidentifikasi karyawan berisiko churn dengan recall 0.45 (klasifikasi positif) dan precision 0.82.
+    - Contoh implementasi:
+      ``` python
+      # Prediksi karyawan berisiko churn
+      high_risk_employees = X_test[y_prob_log > 0.7]  # Ambil sampel dengan probabilitas >70%
+      ```
+      
+2. **Problem 2:**
+
+   "Tidak ada insight faktor penyebab churn."
+
+   **Solusi dari Proyek:**
+   - Analisis feature importance mengungkap 5 faktor utama churn:
+     1. Overtime
+     2. MonthlyIncome
+     3. Age
+     4. JobSatisfaction
+     5. YearsAtCompany
+   - Visualisasi:
+     
+     ![image](https://github.com/user-attachments/assets/cd8e24eb-b38f-42b4-8099-41a5071a1418)
+
+   - Rekomendasi bisnis:
+     * Berikan insentif untuk karyawan yang sering lembur.
+     * Tingkatkan kepuasan kerja di departemen dengan churn tinggi (Sales).
+       
+2. **Problem 3:**
+
+   "Tidak ada sistem early warning."
+
+   **Solusi dari Proyek:**
+   - Dibangun pipeline prediktif yang siap di-deploy:
+     ``` python
+     import joblib
+     joblib.dump(log_model, 'churn_predictor.pkl')  # Model siap produksi
+     ```
+   - Threshold disesuaikan untuk mengoptimalkan recall (mengurangi false negative):
+     ``` python
+     y_pred_optimized = (y_prob_log > 0.4).astype(int)  # Threshold 40%
+     ```
+
+#### **Jawaban terhadap Problem Statements**
+
+| Problem Statement |	Solusi dari Proyek |	Bukti/Dokumentasi |
+| --- | --- | ---|
+| Tidak bisa prediksi churn |	Model dengan akurasi 89% dan AUC 0.77 |	Classification Report, ROC Curve |
+| Tidak tahu faktor churn |	Identifikasi 5 fitur kunci |	Feature Importance Plot |
+| Tidak ada sistem early warning |	Pipeline model siap deploy dengan threshold tuning |	Kode ekspor model & threshold adjustment |
+
+#### **Kesimpulan Final:**
+Project ini berhasil menjawab ketiga problem statement awal melalui: (1) pembangunan model prediktif dengan metrik melebihi target (akurasi >80%), (2) analisis faktor risiko churn yang actionable, dan (3) penyediaan infrastruktur prediksi yang siap diintegrasikan ke sistem HR perusahaan.
 
 ## Referensi:
 1. Allen, D. G., Bryant, P. C., & Vardaman, J. M. "Retaining talent: Replacing misconceptions with evidence-based strategies." Academy of Management Perspectives, vol. 24, no. 2, pp. 48-64, 2010.
