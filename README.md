@@ -33,15 +33,50 @@ Proyek ini akan mencakup beberapa tahapan utama untuk menyelesaikan permasalahan
 **Sumber data**: [Dataset Karyawan Jaya Jaya Maju](https://github.com/dicodingacademy/dicoding_dataset/blob/main/employee/employee_data.csv) yang berisi informasi demografis, karakteristik pekerjaan, kompensasi, dan status attrition karyawan.
 
 **Setup environment**:
-- Pastikan Docker sudah terinstal dan jalankan perintah berikut:
-```
-docker pull metabase/metabase:latest
-```
-- Kemudian jalankan perintah berikut:
-```
-docker run -d -p 3000:3000 --name metabase metabase/metabase
-```
-      
+
+1. **Persiapan Virtual Environment**:
+   - Buat virtual environment baru:
+     ```
+     python -m venv venv
+     ```
+   - Aktifkan virtual environment:
+     - Windows:
+       ```
+       venv\Scripts\activate
+       ```
+     - macOS/Linux:
+       ```
+       source venv/bin/activate
+       ```
+
+2. **Instalasi Dependencies**:
+   - Install semua package yang dibutuhkan:
+     ```
+     pip install -r requirements.txt
+     ```
+   - Jika file requirements.txt belum tersedia, install package secara manual:
+     ```
+     pip install pandas numpy matplotlib seaborn plotly jupyter
+     ```
+
+3. **Menjalankan Jupyter Notebook**:
+   - Buka notebook dengan perintah:
+     ```
+     jupyter notebook notebook.ipynb
+     ```
+   - Jalankan semua cell secara berurutan
+
+4. **Menjalankan Metabase Dashboard**:
+   - Pastikan Docker sudah terinstal
+   - Jalankan perintah berikut:
+     ```
+     docker pull metabase/metabase:latest
+     docker run -d -p 3000:3000 --name metabase metabase/metabase
+     ```
+   - Akses dashboard di `http://localhost:3000` dengan:
+     - Username: `root@mail.com`
+     - Password: `root123`
+
 **Tools dan Technologies**:
 - **Python**: Pandas dan NumPy
 - **Visualization**: Matplotlib, Seaborn, Plotly untuk data visualization
@@ -67,22 +102,33 @@ Business dashboard telah dibuat menggunakan Metabase untuk membantu departemen H
    - Analisis kepuasan kerja
    - Distribusi jam kerja dan overtime
 
-**Akses Dashboard:**
-- **URL**: `http://localhost:3000` (running di local environment)
-- **Username**: `root@mail.com`
-- **Password**: `root123`
-
 ## Conclusion
 
 Berdasarkan analisis data untuk kasus attrition rate di Perusahaan Jaya Jaya Maju, dapat disimpulkan beberapa hal penting:
 
-**Key Findings:**
+**Karakteristik Karyawan yang Melakukan Attrition**:
+1. **Demografis**:
+   - Usia rata-rata lebih muda (28-33 tahun) dibanding yang bertahan (36-38 tahun)
+   - Masa kerja lebih pendek (4-5 tahun) dibanding yang bertahan (7-8 tahun)
 
-1. **Faktor Utama Attrition**: Analisis menunjukkan bahwa faktor-faktor seperti job satisfaction, waktu overtime, dan usia menjadi prediktor utama employee attrition.
+2. **Faktor Pekerjaan**:
+   - Gaji bulanan lebih rendah (rata-rata 20-30% lebih rendah dari yang bertahan)
+   - Lebih sering melakukan overtime (attrition rate 2-3x lebih tinggi pada karyawan overtime)
+   - Tingkat kepuasan kerja lebih rendah (terutama level 1-2)
 
-2. **Pola Attrition**: Terdapat pola spesifik dalam attrition berdasarkan demografis, dan karakteristik pekerjaan yang dapat digunakan untuk strategi retention.
+3. **Departemen**:
+   - Departemen Sales memiliki attrition rate tertinggi (>15%)
+   - Departemen Research & Development memiliki jumlah attrition terbanyak (karena jumlah karyawan lebih banyak)
 
-3. **Dashboard Monitoring**: Business dashboard yang telah dibuat memberikan visibility terhadap key metrics dan memungkinkan monitoring terhadap faktor-faktor risiko attrition.
+**Rekomendasi Strategi Retention**:
+1. Program pengembangan karir untuk karyawan muda (usia <30 tahun)
+2. Review sistem kompensasi, terutama untuk karyawan dengan masa kerja 3-5 tahun
+3. Intervensi khusus untuk departemen Sales dengan program mentoring
+4. Monitoring khusus untuk karyawan yang sering overtime
+5. Program peningkatan kepuasan kerja melalui survey berkala
 
-**Impact:**
-Implementasi solusi ini diharapkan dapat membantu Jaya Jaya Maju mengurangi attrition rate dari >10% menjadi di bawah rata-rata industri (sekitar 6-8%), sehingga dapat meningkatkan stabilitas operasional perusahaan.
+**Impact**:
+Implementasi solusi ini diharapkan dapat membantu Jaya Jaya Maju:
+- Mengurangi attrition rate dari >10% menjadi di bawah rata-rata industri (6-8%)
+- Meningkatkan produktivitas melalui stabilitas SDM
+- Mengoptimalkan biaya rekrutmen dan training karyawan baru
