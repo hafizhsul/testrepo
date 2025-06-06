@@ -44,18 +44,19 @@ Referensi:
 *Catatan: Dipertimbangkan untuk pengembangan selanjutnya*
 
 ## Data Understanding
-
-Dataset: [TMDB 5000 Movie Dataset](https://www.kaggle.com/datasets/tmdb/tmdb-movie-metadata?select=tmdb_5000_movies.csv)
-Jumlah Data: 4803 film
-Variabel Kunci:
-- `title`: Judul film
-- `genres`: Genre dalam format JSON
-- `keywords`: Kata kunci deskriptif
-- `overview`: Sinopsis film
-- `vote_average`: Rating rata-rata
+Dataset yang digunakan adalah TMDB 5000 Movie Dataset yang berisi 4803 film. Dataset ini mencakup informasi seperti genre, kata kunci, sinopsis, dan rating film yang digunakan untuk rekomendasi. Dataset dapat diakses [di sini](https://www.kaggle.com/datasets/tmdb/tmdb-movie-metadata?select=tmdb_5000_movies.csv).
+- **Variabel Kunci**:
+   - `title`: Judul film
+   - `genres`: Genre dalam format JSON
+   - `keywords`: Kata kunci deskriptif
+   - `overview`: Sinopsis film
+   - `vote_average`: Rating rata-rata
 
 Exploratory Data Analysis:
-1. Distribusi Rating:
+Dalam tahap Exploratory Data Analysis (EDA), dilakukan analisis distribusi rating dan genre paling populer. Hal ini membantu memahami bagaimana film dinilai dan genre apa yang mendominasi dalam dataset.
+
+1. Distribusi Rating:  
+   Histogram digunakan untuk melihat distribusi rating film yang ada. Ini membantu untuk memahami bagaimana film dinilai oleh pengguna.
    ```python
    sns.histplot(movies['vote_average'], bins=20)
    ```
@@ -63,7 +64,8 @@ Exploratory Data Analysis:
    
    *Mayoritas film memiliki rating 5-7 dengan distribusi normal*
 
-2. Top Genre:
+3. Top Genre:  
+   Bar plot digunakan untuk menampilkan 10 genre film paling populer dalam dataset. Ini memberikan gambaran tentang genre yang dominan di dataset.
     ```python
    pd.Series(all_genres).value_counts()[:10].plot(kind='bar')
    ```
@@ -72,9 +74,11 @@ Exploratory Data Analysis:
    *Drama (20%), Comedy (15%), dan Thriller (12%) dominan*
 
 ## Data Preparation
+Data preparation dilakukan untuk mengubah data mentah (seperti format JSON dan nilai kosong) menjadi format yang siap digunakan dalam pemodelan. Langkah ini penting untuk memastikan bahwa model dapat memproses data dengan baik dan memberikan hasil yang akurat.
 
 Tahapan yang dilakukan:
 1. Ekstraksi Fitur:
+   Fungsi `extract_text_from_column` digunakan untuk membersihkan kolom genre dan kata kunci yang berupa format JSON dan mengubahnya menjadi string yang lebih mudah diproses.
    ```python
    def extract_text_from_column(data, column):
     return data[column].apply(lambda x: ' '.join([i['name'] for i in ast.literal_eval(x)]))
@@ -82,6 +86,7 @@ Tahapan yang dilakukan:
    *Alasan: Mengubah struktur JSON menjadi teks terstruktur*
    
 3. Penggabungan Fitur:
+   Kolom genre, kata kunci, dan sinopsis digabungkan untuk menghasilkan fitur gabungan yang akan digunakan dalam perhitungan kemiripan film.
    ```python
    movies['combined_features'] = movies['genres_clean'] + ' ' + movies['keywords_clean'] + ' ' + movies['overview']
    ```
@@ -94,20 +99,24 @@ Tahapan yang dilakukan:
    *Alasan: Mencegah error pada TF-IDF*
 
 ## Modeling
-
+- **Deskripsi Sistem Rekomendasi**:
+Model rekomendasi dibangun menggunakan teknik TF-IDF Vectorization untuk mengubah teks menjadi vektor numerik. Kemudian, Cosine Similarity digunakan untuk menghitung tingkat kemiripan antara film berdasarkan fitur-fitur yang telah digabungkan.
 Content-Based Filtering
-1. TF-IDF Vectorization:
-   ```python
-   tfidf = TfidfVectorizer(stop_words='english', max_features=5000)
-   tfidf_matrix = tfidf.fit_transform(movies['combined_features'])
-   ```
-   *Mengubah teks menjadi vektor numerik*
-   
-3. Cosine Similarity:
-   ```python
-   cosine_sim = cosine_similarity(tfidf_matrix)
-   ```
-   *Menghitung kemiripan antar film*
+   1. TF-IDF Vectorization:
+      ```python
+      tfidf = TfidfVectorizer(stop_words='english', max_features=5000)
+      tfidf_matrix = tfidf.fit_transform(movies['combined_features'])
+      ```
+      *Mengubah teks menjadi vektor numerik*
+      
+   3. Cosine Similarity:
+      ```python
+      cosine_sim = cosine_similarity(tfidf_matrix)
+      ```
+      *Menghitung kemiripan antar film*
+
+- **Top-N Recommendation**:
+Fungsi `get_recommendations` digunakan untuk memberikan rekomendasi film berdasarkan input judul film. Hasilnya adalah 5 film yang memiliki kemiripan tinggi dengan film yang dimasukkan.
    
 **Output Contoh:**
 | Film Input |	Rekomendasi 1 |	Rekomendasi 2 |
@@ -116,10 +125,12 @@ Content-Based Filtering
 
 ## Evaluation
 **Metrik**: Precision@K
+Precision@K digunakan untuk mengukur jumlah rekomendasi relevan dibandingkan dengan total rekomendasi yang diberikan (misalnya 5).
 Formula:
 ```
 Precision@5 = (Jumlah rekomendasi relevan) / 5
 ```
+Metrik ini penting untuk mengevaluasi seberapa relevan rekomendasi yang diberikan oleh sistem. Precision yang tinggi menunjukkan bahwa sistem dapat memberikan rekomendasi yang sesuai dengan preferensi pengguna.
 
 Hasil:
 1. Untuk film "Inception":
@@ -130,13 +141,13 @@ Hasil:
    - 5/5 rekomendasi animasi keluarga
    - Precision@5 = 1.0
 
+Berdasarkan evaluasi pada film "Inception", sistem menghasilkan Precision@5 sebesar 0.8, yang menunjukkan bahwa 4 dari 5 rekomendasi relevan dengan genre Sci-Fi/Thriller.
+
 Visualisasi:
 ```python
 sns.barplot(x='vote_average', y='title', data=recommendations)
 ```
 ![image](https://github.com/user-attachments/assets/ad4d0aa3-3838-455e-a87b-c35b5d401725)
-
-
 
 
 
