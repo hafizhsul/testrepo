@@ -2,66 +2,114 @@
 
 ## Project Overview
 
-Industri film global bernilai $100 miliar [(Statista, 2023)](https://www.statista.com/statistics/1419685/box-office-revenue-by-region-country-worldwide/) dengan pertumbuhan konten yang eksponensial. Tantangan utama bagi penonton adalah menemukan film yang relevan di antara ribuan opsi. Sistem rekomendasi berbasis konten menjadi solusi efektif, meningkatkan engagement pengguna hingga 30% [(Gomez-Uribe & Hunt, 2016)](https://dl.acm.org/doi/10.1145/2843948).
+Di era digital dengan lebih dari 500.000 judul film tersedia secara global (IMDb, 2023), konsumen menghadapi tantangan besar dalam menemukan konten yang sesuai. Sistem rekomendasi menjadi solusi kritis, dengan pasar global diproyeksikan tumbuh 35% CAGR hingga 2027 (MarketsandMarkets, 2023). Proyek ini mengembangkan sistem rekomendasi berbasis konten untuk platform streaming, memanfaatkan metadata film dari TMDB.
+
+Analisis Industri:
+- Pengguna menghabiskan rata-rata 18 menit untuk memilih film (Netflix Research)
+- 75% penonton mengandalkan rekomendasi sistem (McKinsey Digital)
+- Platform dengan sistem rekomendasi baik meningkatkan retention rate hingga 40%
+
+Teknologi Inti:
+- Content-Based Filtering
+- Natural Language Processing (TF-IDF)
+- Similarity Computing (Cosine Similarity)
 
 Referensi:
-1. Statista. (2023). Global Film Industry Revenue.
-2. Gomez-Uribe, C. A., & Hunt, N. (2016). The Netflix Recommender System. ACM Transactions.
+- Netflix Technology Blog. (2022). How Netflix Recommends Movies [[1]](https://netflixtechblog.com/foundation-model-for-personalized-recommendation-1a0bd8e02d39)
+- IEEE Transactions on Multimedia. (2021). Advanced Content-Based Recommender Systems [[2]](https://www.researchgate.net/publication/344454095_Recommender_Systems_Leveraging_Multimedia_Content)
 
 ## Business Understanding
 
-Pada bagian ini, Anda perlu menjelaskan proses klarifikasi masalah.
-
-Bagian laporan ini mencakup:
-
 ### Problem Statements
-
-Menjelaskan pernyataan masalah:
-- Pernyataan Masalah 1
-- Pernyataan Masalah 2
-- Pernyataan Masalah n
+- Overload informasi: Pengguna kesulitan menemukan film sesuai preferensi dari 4803 opsi
+- Rekomendasi tidak personal: Platform sering menampilkan film populer tanpa mempertimbangkan kesukaan spesifik pengguna
+- Ketergantungan pada rating: Sistem tradisional hanya mengandalkan rating tanpa mempertimbangkan kemiripan konten
 
 ### Goals
+- Membangun sistem yang merekomendasikan film berdasarkan kemiripan genre, kata kunci, dan sinopsis
+- Meningkatkan akurasi rekomendasi dengan pendekatan content-based filtering
+- Memberikan setidaknya 5 rekomendasi relevan untuk setiap film input
 
-Menjelaskan tujuan proyek yang menjawab pernyataan masalah:
-- Jawaban pernyataan masalah 1
-- Jawaban pernyataan masalah 2
-- Jawaban pernyataan masalah n
-
-Semua poin di atas harus diuraikan dengan jelas. Anda bebas menuliskan berapa pernyataan masalah dan juga goals yang diinginkan.
-
-**Rubrik/Kriteria Tambahan (Opsional)**:
-- Menambahkan bagian “Solution Approach” yang menguraikan cara untuk meraih goals. Bagian ini dibuat dengan ketentuan sebagai berikut: 
-
-    ### Solution statements
-    - Mengajukan 2 atau lebih solution approach (algoritma atau pendekatan sistem rekomendasi).
+### Solution statements
+1. Content-Based Filtering
+   - Kelebihan:
+     - Tidak memerlukan data historik pengguna
+     - Efektif untuk film baru
+     - Interpretasi hasil mudah
+   - Kekurangan:
+     - Terbatas pada metadata yang ada
+     - Kurang adaptif terhadap preferensi kompleks
+       
+2. Collaborative Filtering  
+*Catatan: Dipertimbangkan untuk pengembangan selanjutnya*
 
 ## Data Understanding
-Paragraf awal bagian ini menjelaskan informasi mengenai jumlah data, kondisi data, dan informasi mengenai data yang digunakan. Sertakan juga sumber atau tautan untuk mengunduh dataset. Contoh: [UCI Machine Learning Repository](https://archive.ics.uci.edu/ml/datasets/Restaurant+%26+consumer+data).
 
-Selanjutnya, uraikanlah seluruh variabel atau fitur pada data. Sebagai contoh:  
+Dataset: [TMDB 5000 Movie Dataset](https://www.kaggle.com/datasets/tmdb/tmdb-movie-metadata?select=tmdb_5000_movies.csv)
+Jumlah Data: 4803 film
+Variabel Kunci:
+- `title`: Judul film
+- `genres`: Genre dalam format JSON
+- `keywords`: Kata kunci deskriptif
+- `overview`: Sinopsis film
+- `vote_average`: Rating rata-rata
 
-Variabel-variabel pada Restaurant UCI dataset adalah sebagai berikut:
-- accepts : merupakan jenis pembayaran yang diterima pada restoran tertentu.
-- cuisine : merupakan jenis masakan yang disajikan pada restoran.
-- dst
+Exploratory Data Analysis:
+1. Distribusi Rating:
+   ```python
+   sns.histplot(movies['vote_average'], bins=20)
+   ```
+   ![image](https://github.com/user-attachments/assets/b962e81a-33e2-4bf3-b549-c947d6e71139)
+   
+   *Mayoritas film memiliki rating 5-7 dengan distribusi normal*
 
-**Rubrik/Kriteria Tambahan (Opsional)**:
-- Melakukan beberapa tahapan yang diperlukan untuk memahami data, contohnya teknik visualisasi data beserta insight atau exploratory data analysis.
+2. Top Genre:
+    ```python
+   pd.Series(all_genres).value_counts()[:10].plot(kind='bar')
+   ```
+   ![image](https://github.com/user-attachments/assets/542b7c4e-138f-460e-a632-66ba8054588e)
+
+   *Drama (20%), Comedy (15%), dan Thriller (12%) dominan*
 
 ## Data Preparation
-Pada bagian ini Anda menerapkan dan menyebutkan teknik data preparation yang dilakukan. Teknik yang digunakan pada notebook dan laporan harus berurutan.
 
-**Rubrik/Kriteria Tambahan (Opsional)**: 
-- Menjelaskan proses data preparation yang dilakukan
-- Menjelaskan alasan mengapa diperlukan tahapan data preparation tersebut.
+Tahapan yang dilakukan:
+1. Ekstraksi Fitur:
+   ```python
+   def extract_text_from_column(data, column):
+    return data[column].apply(lambda x: ' '.join([i['name'] for i in ast.literal_eval(x)]))
+   ```
+   *Alasan: Mengubah struktur JSON menjadi teks terstruktur*
+   
+3. Penggabungan Fitur:
+   ```python
+   movies['combined_features'] = movies['genres_clean'] + ' ' + movies['keywords_clean'] + ' ' + movies['overview']
+   ```
+   *Alasan: Membuat representasi teks komprehensif untuk analisis*
+   
+5. Handling Missing Values:
+   ```python
+   movies['overview'].fillna('', inplace=True)
+   ```
+   *Alasan: Mencegah error pada TF-IDF*
 
 ## Modeling
-Tahapan ini membahas mengenai model sisten rekomendasi yang Anda buat untuk menyelesaikan permasalahan. Sajikan top-N recommendation sebagai output.
 
-**Rubrik/Kriteria Tambahan (Opsional)**: 
-- Menyajikan dua solusi rekomendasi dengan algoritma yang berbeda.
-- Menjelaskan kelebihan dan kekurangan dari solusi/pendekatan yang dipilih.
+Content-Based Filtering
+1. TF-IDF Vectorization:
+   ```python
+   tfidf = TfidfVectorizer(stop_words='english', max_features=5000)
+   tfidf_matrix = tfidf.fit_transform(movies['combined_features'])
+   ```
+   *Mengubah teks menjadi vektor numerik*
+   
+3. Cosine Similarity:
+   ```python
+   cosine_sim = cosine_similarity(tfidf_matrix)
+   ```
+   *Menghitung kemiripan antar film*
+
+   
 
 ## Evaluation
 Pada bagian ini Anda perlu menyebutkan metrik evaluasi yang digunakan. Kemudian, jelaskan hasil proyek berdasarkan metrik evaluasi tersebut.
