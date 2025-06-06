@@ -1,14 +1,12 @@
-# Laporan Proyek Machine Learning - Nama Anda
+# Laporan Proyek Machine Learning - Masdika Ilhan Mansiz
 
 ## Project Overview
 
-Pada bagian ini, Kamu perlu menuliskan latar belakang yang relevan dengan proyek yang diangkat.
+Industri film global bernilai $100 miliar [(Statista, 2023)](https://www.statista.com/statistics/1419685/box-office-revenue-by-region-country-worldwide/) dengan pertumbuhan konten yang eksponensial. Tantangan utama bagi penonton adalah menemukan film yang relevan di antara ribuan opsi. Sistem rekomendasi berbasis konten menjadi solusi efektif, meningkatkan engagement pengguna hingga 30% [(Gomez-Uribe & Hunt, 2016)](https://dl.acm.org/doi/10.1145/2843948).
 
-**Rubrik/Kriteria Tambahan (Opsional)**:
-- Jelaskan mengapa dan bagaimana masalah tersebut harus diselesaikan
-- Menyertakan hasil riset terkait atau referensi. Referensi yang diberikan harus berasal dari sumber yang kredibel dan author yang jelas.
-- Format Referensi dapat mengacu pada penulisan sitasi [IEEE](https://journals.ieeeauthorcenter.ieee.org/wp-content/uploads/sites/7/IEEE_Reference_Guide.pdf), [APA](https://www.mendeley.com/guides/apa-citation-guide/) atau secara umum seperti [di sini](https://penerbitdeepublish.com/menulis-buku-membuat-sitasi-dengan-mudah/)
-- Sumber yang bisa digunakan [Scholar](https://scholar.google.com/)
+Referensi:
+1. Statista. (2023). Global Film Industry Revenue.
+2. Gomez-Uribe, C. A., & Hunt, N. (2016). The Netflix Recommender System. ACM Transactions.
 
 ## Business Understanding
 
