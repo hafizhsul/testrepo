@@ -108,19 +108,37 @@ Content-Based Filtering
    cosine_sim = cosine_similarity(tfidf_matrix)
    ```
    *Menghitung kemiripan antar film*
-
    
+**Output Contoh:**
+| Film Input |	Rekomendasi 1 |	Rekomendasi 2 |
+|---|---|---|
+| The Avengers |	Iron Man 3 |	Captain America |
 
 ## Evaluation
-Pada bagian ini Anda perlu menyebutkan metrik evaluasi yang digunakan. Kemudian, jelaskan hasil proyek berdasarkan metrik evaluasi tersebut.
+**Metrik**: Precision@K
+Formula:
+```
+Precision@5 = (Jumlah rekomendasi relevan) / 5
+```
 
-Ingatlah, metrik evaluasi yang digunakan harus sesuai dengan konteks data, problem statement, dan solusi yang diinginkan.
+Hasil:
+1. Untuk film "Inception":
+   - 4/5 rekomendasi memiliki genre Sci-Fi/Thriller
+   - Precision@5 = 0.8
 
-**Rubrik/Kriteria Tambahan (Opsional)**: 
-- Menjelaskan formula metrik dan bagaimana metrik tersebut bekerja.
+2. Untuk film "Toy Story":
+   - 5/5 rekomendasi animasi keluarga
+   - Precision@5 = 1.0
 
-**---Ini adalah bagian akhir laporan---**
+Visualisasi:
+```python
+sns.barplot(x='vote_average', y='title', data=recommendations)
+```
+![image](https://github.com/user-attachments/assets/ad4d0aa3-3838-455e-a87b-c35b5d401725)
 
-_Catatan:_
-- _Anda dapat menambahkan gambar, kode, atau tabel ke dalam laporan jika diperlukan. Temukan caranya pada contoh dokumen markdown di situs editor [Dillinger](https://dillinger.io/), [Github Guides: Mastering markdown](https://guides.github.com/features/mastering-markdown/), atau sumber lain di internet. Semangat!_
-- Jika terdapat penjelasan yang harus menyertakan code snippet, tuliskan dengan sewajarnya. Tidak perlu menuliskan keseluruhan kode project, cukup bagian yang ingin dijelaskan saja.
+
+
+
+
+
+
