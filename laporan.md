@@ -1,17 +1,22 @@
-# Proyek Akhir: Menyelesaikan Permasalahan Perusahaan Edutech
+# Proyek Akhir: Menyelesaikan Permasalahan Institusi Pendidikan Jaya Jaya Institut
 
 ## Business Understanding
-Jelaskan latar belakang bisnis dari perushaan tersebut.
+Jaya Jaya Institut adalah institusi pendidikan perguruan tinggi yang telah berdiri sejak tahun 2000. Meskipun memiliki reputasi yang baik, institusi ini menghadapi masalah tingginya angka dropout siswa. Deteksi dini siswa berisiko dropout diperlukan untuk memberikan intervensi yang tepat.
 
 ### Permasalahan Bisnis
-Tuliskan seluruh permasalahan bisnis yang akan diselesaikan.
+1. Tingginya angka dropout siswa yang berdampak pada reputasi institusi.
+2. Kebutuhan untuk memonitor performa siswa secara real-time.
+3. Kurangnya alat prediktif untuk mengidentifikasi siswa berisiko sejak dini.
 
 ### Cakupan Proyek
-Tuliskan cakupan proyek yang akan dikerjakan.
+1. Membangun model machine learning untuk memprediksi risiko dropout siswa.
+2. Membuat dashboard visualisasi untuk memantau performa siswa dan faktor risiko.
+3. Mengembangkan prototype berbasis web yang dapat digunakan oleh staf akademik.
 
 ### Persiapan
 
-Sumber data: ....
+**Sumber data**:  
+Dataset yang digunakan dalam proyek ini adalah [students' performance](https://github.com/dicodingacademy/dicoding_dataset/blob/main/students_performance/data.csv) yang berisi informasi tentang kinerja akademis siswa.
 
 Setup environment:
 ```
