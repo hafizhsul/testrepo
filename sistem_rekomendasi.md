@@ -46,11 +46,12 @@ Referensi:
 ## Data Understanding
 Dataset yang digunakan adalah TMDB 5000 Movie Dataset yang berisi 4803 film. Dataset ini mencakup informasi seperti genre, kata kunci, sinopsis, dan rating film yang digunakan untuk rekomendasi. Dataset dapat diakses [di sini](https://www.kaggle.com/datasets/tmdb/tmdb-movie-metadata?select=tmdb_5000_movies.csv).
 
-Deskripsi Dataset
+**Deskripsi Dataset**
 - Jumlah baris: 4803 film
 - Jumlah kolom: 20 kolom
 
-Variabel Utama
+**Variabel Utama**
+
 Berikut adalah deskripsi lengkap semua kolom dalam dataset:
 - `budget`: Anggaran produksi film (dalam USD)
 - `genres`: Daftar genre film dalam format JSON
@@ -73,7 +74,22 @@ Berikut adalah deskripsi lengkap semua kolom dalam dataset:
 - `vote_average`: Rating rata-rata film (skala 0-10)
 - `vote_count`: Jumlah vote yang diterima
 
-Exploratory Data Analysis:
+**Kondisi Data**
+
+Hasil pemeriksaan missing values:
+```python
+movies.isna().sum()
+```
+- `homepage`: 3091 missing values (64.4%)
+- `tagline`: 844 missing values (17.6%)
+- `overview`: 3 missing values (0.06%)
+- `runtime`: 2 missing values (0.04%)
+- `release_date`: 1 missing value (0.02%)
+
+Kolom lain tidak memiliki missing values.
+
+**Exploratory Data Analysis**:
+
 Dalam tahap Exploratory Data Analysis (EDA), dilakukan analisis distribusi rating dan genre paling populer. Hal ini membantu memahami bagaimana film dinilai dan genre apa yang mendominasi dalam dataset.
 
 1. Distribusi Rating:  
@@ -98,7 +114,8 @@ Dalam tahap Exploratory Data Analysis (EDA), dilakukan analisis distribusi ratin
 Data preparation dilakukan untuk mengubah data mentah (seperti format JSON dan nilai kosong) menjadi format yang siap digunakan dalam pemodelan. Langkah ini penting untuk memastikan bahwa model dapat memproses data dengan baik dan memberikan hasil yang akurat.
 
 Tahapan yang dilakukan:
-1. Ekstraksi Fitur:
+1. Ekstraksi Fitur
+   
    Fungsi `extract_text_from_column` digunakan untuk membersihkan kolom genre dan kata kunci yang berupa format JSON dan mengubahnya menjadi string yang lebih mudah diproses.
    ```python
    def extract_text_from_column(data, column):
@@ -106,43 +123,60 @@ Tahapan yang dilakukan:
    ```
    *Alasan: Mengubah struktur JSON menjadi teks terstruktur*
    
-3. Penggabungan Fitur:
+2. Penggabungan Fitur
+   
    Kolom genre, kata kunci, dan sinopsis digabungkan untuk menghasilkan fitur gabungan yang akan digunakan dalam perhitungan kemiripan film.
    ```python
-   movies['combined_features'] = movies['genres_clean'] + ' ' + movies['keywords_clean'] + ' ' + movies['overview']
+   movies['combined_features'] = (
+    movies['genres_clean'] + ' ' + 
+    movies['keywords_clean'] + ' ' + 
+    movies['overview'].fillna('')
+   )
    ```
    *Alasan: Membuat representasi teks komprehensif untuk analisis*
+   - Kolom `overview` yang kosong diisi dengan string kosong
+   - Tidak dilakukan penghapusan data karena semua film memiliki metadata penting (genre dan keywords)
+
+4. TF-IDF Vectorization
    
-5. Handling Missing Values:
+   Teknik TF-IDF Vectorization digunakan untuk mengubah teks menjadi vektor numerik.
    ```python
-   movies['overview'].fillna('', inplace=True)
+   tfidf = TfidfVectorizer(stop_words='english', max_features=5000)
+   tfidf_matrix = tfidf.fit_transform(movies['combined_features'])
    ```
-   *Alasan: Mencegah error pada TF-IDF*
 
 ## Modeling
-- **Deskripsi Sistem Rekomendasi**:
-Model rekomendasi dibangun menggunakan teknik TF-IDF Vectorization untuk mengubah teks menjadi vektor numerik. Kemudian, Cosine Similarity digunakan untuk menghitung tingkat kemiripan antara film berdasarkan fitur-fitur yang telah digabungkan.
-Content-Based Filtering
-   1. TF-IDF Vectorization:
-      ```python
-      tfidf = TfidfVectorizer(stop_words='english', max_features=5000)
-      tfidf_matrix = tfidf.fit_transform(movies['combined_features'])
-      ```
-      *Mengubah teks menjadi vektor numerik*
-      
-   3. Cosine Similarity:
-      ```python
-      cosine_sim = cosine_similarity(tfidf_matrix)
-      ```
-      *Menghitung kemiripan antar film*
+**Content-Based Filtering**  
+- Cosine Similarity:
+  
+  Cosine Similarity digunakan untuk mengukur kemiripan antara vektor film input dan vektor semua film lain.
+   ```python
+   cosine_sim = cosine_similarity(tfidf_matrix)
+   ```
+   *Menghitung kemiripan antar film berdasarkan vektor TF-IDF*
+
+  Contoh Perhitungan:  
+  Misal kita hitung similarity antara The Avengers (A) dan Iron Man 3 (B):
+  ```
+  A = [Action:0.7, Superhero:0.6, Marvel:0.5]  
+  B = [Action:0.8, Superhero:0.5, Tech:0.3]  
+  similarity = (0.7×0.8 + 0.6×0.5 + 0.5×0) / (√(0.7²+0.6²+0.5²) × √(0.8²+0.5²+0.3²)) ≈ 0.89
+  ```
+  Nilai `0.89` menunjukkan kemiripan sangat tinggi.
 
 - **Top-N Recommendation**:
-Fungsi `get_recommendations` digunakan untuk memberikan rekomendasi film berdasarkan input judul film. Hasilnya adalah 5 film yang memiliki kemiripan tinggi dengan film yang dimasukkan.
+  
+  Fungsi `get_recommendations` digunakan untuk memberikan rekomendasi film berdasarkan input judul film. Hasilnya adalah 5 film yang memiliki kemiripan tinggi dengan film yang dimasukkan.
    
-**Output Contoh:**
-| Film Input |	Rekomendasi 1 |	Rekomendasi 2 |
+**Contoh Output untuk "Batman"**
+
+| Title | Genres | Vote Average |
 |---|---|---|
-| Batman | Batman & Robin | The Dark Knight Rises |
+| Batman & Robin | Action Crime Fantasy | 4.2 |
+| The Dark Knight Rises | Action Crime Drama Thriller | 7.6 |
+| Batman Begins | Action Crime Drama | 7.5 |
+| Batman Returns | Action Fantasy | 6.6 |
+| The Dark Knight | Drama Action Crime Thriller | 8.2 |
 
 ## Evaluation
 **Metrik**: Precision@K
