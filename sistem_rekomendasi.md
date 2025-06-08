@@ -45,12 +45,33 @@ Referensi:
 
 ## Data Understanding
 Dataset yang digunakan adalah TMDB 5000 Movie Dataset yang berisi 4803 film. Dataset ini mencakup informasi seperti genre, kata kunci, sinopsis, dan rating film yang digunakan untuk rekomendasi. Dataset dapat diakses [di sini](https://www.kaggle.com/datasets/tmdb/tmdb-movie-metadata?select=tmdb_5000_movies.csv).
-- **Variabel Kunci**:
-   - `title`: Judul film
-   - `genres`: Genre dalam format JSON
-   - `keywords`: Kata kunci deskriptif
-   - `overview`: Sinopsis film
-   - `vote_average`: Rating rata-rata
+
+Deskripsi Dataset
+- Jumlah baris: 4803 film
+- Jumlah kolom: 20 kolom
+
+Variabel Utama
+Berikut adalah deskripsi lengkap semua kolom dalam dataset:
+- `budget`: Anggaran produksi film (dalam USD)
+- `genres`: Daftar genre film dalam format JSON
+- `homepage`: URL homepage resmi film
+- `id`: ID unik film di TMDB
+- `keywords`: Kata kunci terkait film dalam format JSON
+- `original_language`: Bahasa asli film (kode 2 huruf)
+- `original_title`: Judul film dalam bahasa asli
+- `overview`: Sinopsis film
+- `popularity`: Skor popularitas film di TMDB
+- `production_companies`: Perusahaan produksi dalam format JSON
+- `production_countries`: Negara produksi dalam format JSON
+- `release_date`: Tanggal rilis film
+- `revenue`: Pendapatan film (dalam USD)
+- `runtime`: Durasi film dalam menit
+- `spoken_languages`: Bahasa yang digunakan dalam film (format JSON)
+- `status`: Status rilis (Released, Post Production, dll)
+- `tagline`: Tagline/slogan film
+- `title`: Judul film dalam bahasa Inggris
+- `vote_average`: Rating rata-rata film (skala 0-10)
+- `vote_count`: Jumlah vote yang diterima
 
 Exploratory Data Analysis:
 Dalam tahap Exploratory Data Analysis (EDA), dilakukan analisis distribusi rating dan genre paling populer. Hal ini membantu memahami bagaimana film dinilai dan genre apa yang mendominasi dalam dataset.
@@ -121,7 +142,7 @@ Fungsi `get_recommendations` digunakan untuk memberikan rekomendasi film berdasa
 **Output Contoh:**
 | Film Input |	Rekomendasi 1 |	Rekomendasi 2 |
 |---|---|---|
-| The Avengers |	Iron Man 3 |	Captain America |
+| Batman | Batman & Robin | The Dark Knight Rises |
 
 ## Evaluation
 **Metrik**: Precision@K
