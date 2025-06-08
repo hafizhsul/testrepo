@@ -147,7 +147,7 @@ Tahapan yang dilakukan:
 
 ## Modeling
 **Content-Based Filtering**  
-- Cosine Similarity:
+- **Cosine Similarity**:
   
   Cosine Similarity digunakan untuk mengukur kemiripan antara vektor film input dan vektor semua film lain.
    ```python
@@ -167,16 +167,27 @@ Tahapan yang dilakukan:
 - **Top-N Recommendation**:
   
   Fungsi `get_recommendations` digunakan untuk memberikan rekomendasi film berdasarkan input judul film. Hasilnya adalah 5 film yang memiliki kemiripan tinggi dengan film yang dimasukkan.
+  ```python
+  def get_recommendations(title, n=5):
+    try:
+        idx = movies[movies['title'].str.lower() == title.lower()].index[0]
+        sim_scores = list(enumerate(cosine_sim[idx]))
+        sim_scores = sorted(sim_scores, key=lambda x: x[1], reverse=True)[1:n+1]
+        movie_indices = [i[0] for i in sim_scores]
+        return movies[['title', 'genres_clean', 'vote_average']].iloc[movie_indices]
+    except:
+        return "Film tidak ditemukan"
+  ```
    
-**Contoh Output untuk "Batman"**
-
-| Title | Genres | Vote Average |
-|---|---|---|
-| Batman & Robin | Action Crime Fantasy | 4.2 |
-| The Dark Knight Rises | Action Crime Drama Thriller | 7.6 |
-| Batman Begins | Action Crime Drama | 7.5 |
-| Batman Returns | Action Fantasy | 6.6 |
-| The Dark Knight | Drama Action Crime Thriller | 8.2 |
+   **Contoh Output untuk "Batman"**
+   
+   | Title | Genres | Vote Average |
+   |---|---|---|
+   | Batman & Robin | Action Crime Fantasy | 4.2 |
+   | The Dark Knight Rises | Action Crime Drama Thriller | 7.6 |
+   | Batman Begins | Action Crime Drama | 7.5 |
+   | Batman Returns | Action Fantasy | 6.6 |
+   | The Dark Knight | Drama Action Crime Thriller | 8.2 |
 
 ## Evaluation
 **Metrik**: Precision@K
