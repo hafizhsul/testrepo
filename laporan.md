@@ -81,11 +81,31 @@ Akses dashboard di `http://localhost:3000` dengan:
 - Password: `root123`
 
 ## Menjalankan Sistem Machine Learning
-Jelaskan cara menjalankan protoype sistem machine learning yang telah dibuat. Selain itu, sertakan juga link untuk mengakses prototype tersebut.
 
-```
+Prototype prediksi dropout diimplementasikan dengan **Streamlit**:
 
-```
+**Cara Menjalankan**:
+1. **Lokal**:
+   ```
+   streamlit run app.py
+   ```
+3. **Cloud**: Akses via Link [Prototype](https://studentdropoutapp-7tgx6ok6vt647hkx9egmdd.streamlit.app/).
+
+![Screenshot_15](https://github.com/user-attachments/assets/60a71064-94cd-4d44-a54f-b488483cee16)
+
+![Screenshot_16](https://github.com/user-attachments/assets/4a9f4366-e176-4ff9-9af6-1cb9311502a0)
+
+![Screenshot_17](https://github.com/user-attachments/assets/fa736cb2-5752-4787-90be-ffbfe870ec15)
+
+**Fitur Prototype**
+- **Input Data**:
+  - Informasi pribadi (gender, usia).
+  - Status akademik (beasiswa, tunggakan biaya).
+  - Latar belakang keluarga (kualifikasi orang tua).
+    
+- **Hasil Prediksi**:
+  - Probabilitas risiko dropout (76% Low Risk).
+  - Rekomendasi intervensi (contoh: "Monitor perubahan performa").
 
 ## Conclusion
 Proyek ini memberikan gambaran yang komprehensif tentang performa siswa di Jaya Jaya Institut dan masalah dropout yang dihadapi. Dengan total 4.424 siswa terdaftar, ditemukan bahwa 1.421 siswa telah mengalami dropout, yang menunjukkan angka dropout sebesar 32%.
