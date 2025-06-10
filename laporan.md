@@ -104,8 +104,8 @@ Prototype prediksi dropout diimplementasikan dengan **Streamlit**:
   - Latar belakang keluarga (kualifikasi orang tua).
     
 - **Hasil Prediksi**:
-  - Probabilitas risiko dropout (76% Low Risk).
-  - Rekomendasi intervensi ("Monitor perubahan performa").
+  - Probabilitas risiko dropout (74% Low Risk).
+  - Rekomendasi.
 
 ## Conclusion
 Proyek ini memberikan gambaran yang komprehensif tentang performa siswa di Jaya Jaya Institut dan masalah dropout yang dihadapi. Dengan total 4.424 siswa terdaftar, ditemukan bahwa 1.421 siswa telah mengalami dropout, yang menunjukkan angka dropout sebesar 32%.
